@@ -1,6 +1,7 @@
 package br.com.gm.correios.controller;
 
 import br.com.gm.correios.exception.NoContentException;
+import br.com.gm.correios.exception.NotReadyException;
 import br.com.gm.correios.model.Address;
 import br.com.gm.correios.service.CorreiosService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class CorreiosController {
     }
 
     @GetMapping("/zipcode/{zipcode}")
-    public Address getAddressByZipcode(@PathVariable String zipcode) throws NoContentException {
+    public Address getAddressByZipcode(@PathVariable("zipcode") String zipcode) throws NoContentException, NotReadyException {
         return this.correiosService.getAddressByZipcode(zipcode);
     }
 
