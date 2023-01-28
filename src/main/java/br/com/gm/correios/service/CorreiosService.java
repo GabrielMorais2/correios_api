@@ -12,6 +12,7 @@ import br.com.gm.correios.repository.AddressStatusRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class CorreiosService {
 
     @Autowired
     private SetupRepository setupRepository;
+
+    @Value("${setup.on.startup}")
+    private boolean setupOnStartup;
 
 
     public Status getStatus(){
@@ -54,6 +58,10 @@ public class CorreiosService {
 
     @EventListener(ApplicationStartedEvent.class)
     protected void setupOnStartup(){
+
+        if(!setupOnStartup){
+            return;
+        }
         try {
             this.setup();
         } catch (Exception ex) {
