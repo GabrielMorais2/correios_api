@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=root
+    ports:
+      - 3307:3306
+    command: --init-file /data/application/init.sql
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - ./mariadb/init.sql:/data/application/init.sql
+  app:
+    depends_on:
+      - mariadb
+    build: ./app
+    restart: on-failure
+    ports:
+      - 9091:8080
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url"  : "jdbc:mariadb://mariadb:3306/correios?useSSL=false",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "root",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+    volumes:
+      - .m2:/root/.
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:

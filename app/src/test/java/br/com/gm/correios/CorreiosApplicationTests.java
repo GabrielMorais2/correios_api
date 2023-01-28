@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.mockserver.client.MockServerClient;
-import org.mockserver.model.HttpStatusCode;
 import org.mockserver.springtest.MockServerTest;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
